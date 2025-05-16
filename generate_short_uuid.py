@@ -45,8 +45,8 @@ def main(event=None, callback=None):
     try:
         short_uuid = generate_short_uuid()
 
-        if callback:  # HubSpot execution
-            callback({"outputs": {"short_uuid": short_uuid}})
+        if event:  # HubSpot execution
+            return({"outputFields": {"short_uuid": short_uuid}})
         else:  # Command-line execution
             print(short_uuid)
 
@@ -58,5 +58,7 @@ def main(event=None, callback=None):
             sys.exit(1)
 
 if __name__ == "__main__":
-    # Check if executed from command line (no callback)
-    main()
+    if "hubspotHandler.py" in sys.argv[0]:
+        main(event={})
+    else:
+        main()
